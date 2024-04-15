@@ -51,7 +51,7 @@ def create_obj():
     js = request.get_json()
     obj = State(**js)
     obj.save()
-    return jsonify(obj.to_dict()), 200
+    return jsonify(obj.to_dict()), 201
 
 
 @app_views.route('/states/<string:state_id>', methods=['PUT'],
