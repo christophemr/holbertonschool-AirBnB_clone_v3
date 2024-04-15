@@ -3,6 +3,7 @@
 creat a Flask app; app_views
 """
 from flask import jsonify
+from flask import Flask
 from api.v1.views import app_views
 
 
@@ -10,9 +11,7 @@ from api.v1.views import app_views
 def api_status():
     """
     Retrieves the status of the API.
-
     Returns:
         JSON response indicating the status of the API
     """
-    response = {'status': "ok"}
-    return jsonify(response)
+    return jsonify({"status": "OK"})
