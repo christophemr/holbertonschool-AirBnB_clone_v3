@@ -2,13 +2,17 @@
 """
 creat a Flask app and register the blueprint app_views
 """
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
+from flask_cors import CORS
+
 app = Flask(__name__)
 
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
+cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 
 @app.teardown_appcontext
 def close_db(obj):
@@ -18,7 +22,7 @@ def close_db(obj):
 
 if __name__ == '__main__':
 
-    HOST = getenv('HBNB_API_HOST', default='0.0.0.0')
-    PORT = int(getenv('HBNB_API_PORT', default=5000))
+    host = getenv('HBNB_API_HOST', default='0.0.0.0')
+    port = getenv('HBNB_API_PORT', default=5000)
 
-    app.run(host=HOST, port=PORT, threaded=True)
+    app.run(host, int(port), threaded=True)
