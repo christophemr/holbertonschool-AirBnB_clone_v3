@@ -25,8 +25,8 @@ def page_not_found(error):
     """ Loads a custom 404 page not found """
     return make_response(jsonify({"error": "Not found"}), 404)
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
 
     host = getenv('HBNB_API_HOST', default='0.0.0.0')
     port = int(getenv('HBNB_API_PORT', default=5000))
