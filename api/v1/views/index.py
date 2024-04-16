@@ -8,7 +8,7 @@ from flask import Flask
 from api.v1.views import app_views
 
 
-@app_views.route('/status', strict_slashes=False)
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def api_status():
     """
     Retrieves the status of the API.
@@ -18,7 +18,7 @@ def api_status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', strict_slashes=False)
+@app_views.route('/stats', methods=['GET'],strict_slashes=False)
 def count():
     """
     Retrieves the number of each objects by type
