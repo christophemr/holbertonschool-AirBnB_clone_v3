@@ -1,6 +1,6 @@
 #!usr/bin/python3
 """
-creat a Flask app  blueprint
+create a blueprint for the api
 """
 from flask import Blueprint
 
