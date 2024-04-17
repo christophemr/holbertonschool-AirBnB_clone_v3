@@ -15,7 +15,7 @@ from models.user import User
 
 
 
-@app_views.route('/status')
+@app_views.route('/status', strict_slashes=False)
 def api_status():
     """
     Returns:
@@ -25,7 +25,7 @@ def api_status():
     return jsonify(response)
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', strict_slashes=False)
 def get_object_counts():
     """
     Retrieves the number of each object by type.
