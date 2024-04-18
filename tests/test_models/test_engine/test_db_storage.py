@@ -18,7 +18,6 @@ import json
 import os
 import pep8
 import unittest
-from models import storage
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -88,26 +87,26 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    @unittest.skipIf(models.storage_t != 'db', "not on db storage")
     def test_get(self):
-        """Test that get retrieves an item in db properly"""
-        """ Tests method for obtaining an instance db storage"""
-        state_data = {"name": "Gournay"}
-        instance = State(**state_data)
-        storage.new(instance)
-        storage.save()
-        get_instance = storage.get(State, instance.id)
-        self.assertEqual(get_instance, instance)
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_count(self):
-        """Test that count returns the right number of elements in the db"""
-        state_data = {"name": "Verisure"}
-        state = State(**state_data)
+        """Test that retrieve an object or none if not found"""
+        from models import storage
+        state = State(name='test')
         storage.new(state)
-        city_data = {"name": "Paris", "state_id": state.id}
-        city = City(**city_data)
-        storage.new(city)
         storage.save()
-        c = storage.count()
-        self.assertEqual(len(storage.all()), c)
+
+        obj = storage.get(State, state.id)
+        self.assertEqual(obj, state.id)
+        storage.delete(state)
+        storage.save()
+        temp = storage.get(State, state.id)
+        self.assertIsNone(temp)
+
+    @unittest.skipIf(models.storage_t != 'db', "not on db storage")
+    def test_count(self):
+        """Test that count objects"""
+        from models import storage
+        lenStorage = len(storage.all())
+        self.assertEqual(storage.count(), lenStorage)
+        states_number = len(storage.all(State).value())
+        self.assertEqual(storage.count(State), states_number)
