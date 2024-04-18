@@ -1,38 +1,27 @@
-#!usr/bin/python3
-"""
-Create a Flask app; app_views
-"""
+#!/usr/bin/python3
+"""flask application that retrieves information"""
 from flask import jsonify
-from flask import Flask
 from api.v1.views import app_views
-from models import storage
-from models.amenity import Amenity
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-from models.user import User
 
 
-
-@app_views.route('/status', strict_slashes=False)
-def api_status():
-    """
-    Returns:
-        JSON response indicating the status of the API
-    """
-    response = {"status": "OK"}
-    return jsonify(response)
+@app_views.route("/status", strict_slashes=False)
+def status():
+    """Returns the app status"""
+    return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', strict_slashes=False)
-def get_object_counts():
-    """
-    Retrieves the number of each object by type.
-    Returns:
-        JSON response with counts for different object types
-    """
-    counts = {
+@app_views.route("/stats", methods=["GET"], strict_slashes=False)
+def stats():
+    """return the number of objects per each type"""
+    from models.amenity import Amenity
+    from models.city import City
+    from models.place import Place
+    from models.review import Review
+    from models.state import State
+    from models.user import User
+    from models import storage
+    import json
+    dic = {
         "amenities": storage.count(Amenity),
         "cities": storage.count(City),
         "places": storage.count(Place),
@@ -40,4 +29,5 @@ def get_object_counts():
         "states": storage.count(State),
         "users": storage.count(User)
     }
-    return jsonify(counts)
+    json_dict = json.dumps(dic, indent=2)
+    return json_dict
